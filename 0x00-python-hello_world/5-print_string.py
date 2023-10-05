@@ -2,4 +2,4 @@
 
 str = "Holbeton School"
 
-print(f"{str}{str}{str}")
+print(f"{str * 3}\n{str[:9]}")

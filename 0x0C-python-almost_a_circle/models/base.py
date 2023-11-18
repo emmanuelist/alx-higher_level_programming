@@ -102,3 +102,18 @@ def load_from_file(cls):
         return obj_list
 
     @classmethod
+def save_to_file_csv(cls, list_objs):
+        """
+        function docs
+        """
+
+        filename = "{}.csv".format(cls.__name__)
+        with open(filename, mode='w') as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=',',
+                                    quotechar='"',
+                                    quoting=csv.QUOTE_MINIMAL)
+            for i in list_objs:
+                i_list = cls.to_list(i)
+                csv_writer.writerow(i_list)
+
+    @classmethod

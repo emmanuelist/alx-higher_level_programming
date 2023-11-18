@@ -27,7 +27,6 @@ class Base:
             self.id = Base.__nb_objects
 
     @staticmethod
-
 def to_json_string(list_dictionaries):
         """
         Function Docs
@@ -42,7 +41,6 @@ def to_json_string(list_dictionaries):
             return dumps([])
 
     @classmethod
-
 def save_to_file(cls, list_objs):
         """
         Function Docs

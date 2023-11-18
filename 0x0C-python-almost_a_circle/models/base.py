@@ -27,7 +27,7 @@ class Base:
             self.id = Base.__nb_objects
 
     @staticmethod
-def to_json_string(list_dictionaries):
+    def to_json_string(list_dictionaries):
         """
         Function Docs
         """
@@ -41,7 +41,7 @@ def to_json_string(list_dictionaries):
             return dumps([])
 
     @classmethod
-def save_to_file(cls, list_objs):
+    def save_to_file(cls, list_objs):
         """
         Function Docs
         """
@@ -55,7 +55,7 @@ def save_to_file(cls, list_objs):
             f.write(Base.to_json_string(final_list))
 
     @staticmethod
-def from_json_string(json_string):
+    def from_json_string(json_string):
         """
         Function Doc
         """
@@ -69,7 +69,7 @@ def from_json_string(json_string):
             return []
 
     @classmethod
-def create(cls, **dictionary):
+    def create(cls, **dictionary):
         """
         Function Doc
         """
@@ -85,7 +85,7 @@ def create(cls, **dictionary):
         return dummy_obj
 
     @classmethod
-def load_from_file(cls):
+    def load_from_file(cls):
         """
         Function Doc
         """
@@ -102,7 +102,7 @@ def load_from_file(cls):
         return obj_list
 
     @classmethod
-def save_to_file_csv(cls, list_objs):
+    def save_to_file_csv(cls, list_objs):
         """
         function docs
         """
@@ -117,7 +117,7 @@ def save_to_file_csv(cls, list_objs):
                 csv_writer.writerow(i_list)
 
     @classmethod
-def load_from_file_csv(cls):
+    def load_from_file_csv(cls):
         """
         function docs
         """
@@ -136,3 +136,97 @@ def load_from_file_csv(cls):
         return obj_list
 
     @classmethod
+    def parse_csv(cls, row):
+        """
+        Function doc
+        """
+
+        dictionary_row = {}
+        if type(row) is list:
+            dictionary_row["id"] = row[0]
+            if cls.__name__ == "Rectangle":
+                if len(row) == 5:
+                    dictionary_row["width"] = row[1]
+                    dictionary_row["height"] = row[2]
+                    dictionary_row["x"] = row[3]
+                    dictionary_row["y"] = row[4]
+            elif cls.__name__ == "Square":
+                if len(row) == 4:
+                    dictionary_row["size"] = row[1]
+                    dictionary_row["x"] = row[2]
+                    dictionary_row["y"] = row[3]
+        return dictionary_row
+
+    @classmethod
+    def to_list(cls, obj_item):
+        """
+        Function doc
+        """
+
+        list_item = []
+        if isinstance(obj_item, Base):
+            list_item.append(obj_item.id)
+            if cls.__name__ == "Rectangle":
+                list_item.append(obj_item.width)
+                list_item.append(obj_item.height)
+            elif cls.__name__ == "Square":
+                list_item.append(obj_item.size)
+            list_item.append(obj_item.x)
+            list_item.append(obj_item.y)
+        return list_item
+
+    @staticmethod
+    def draw(list_rectangles, list_squares):
+        """
+        Function doc
+        """
+
+        new_list = list_rectangles + list_squares
+        try:
+            turtle.title("21. Let's draw it")
+            screen = turtle.getscreen()
+            turtle.bgcolor("black")
+            t = turtle.Turtle()
+            turtle.colormode(255)
+
+            def exit_on_click(i, j):
+                screen.exitonclick()
+
+            screen.onclick(exit_on_click)
+            screen.listen()
+            r = False
+            while True:
+                if r:
+                    shuffle(new_list)
+                height = 0
+                width = 0
+                direction = randrange(4)
+                for i in range(len(new_list)):
+                    t.color(randint(0, 255), randint(0, 255), randint(0, 255))
+                    t.begin_fill()
+                    t.pendown()
+                    for j in range(2):
+                        t.fd(new_list[i].width)
+                        t.rt(90)
+                        t.fd(new_list[i].height)
+                        t.rt(90)
+                    t.end_fill()
+                    t.penup()
+                    if direction == 0:
+                        if i != len(new_list) - 1:
+                            width += new_list[i].width + 10
+                    elif direction == 1:
+                        if i != len(new_list) - 1:
+                            width += -new_list[i + 1].width - 10
+                    elif direction == 2:
+                        if i != len(new_list) - 1:
+                            height += new_list[i + 1].height + 10
+                    elif direction == 3:
+                        if i != len(new_list) - 1:
+                            height += -new_list[i].height - 10
+                    t.goto(width, height)
+                t.goto(0, 0)
+                t.clear()
+                r = True
+        except Exception:
+            print("Goodbye!")

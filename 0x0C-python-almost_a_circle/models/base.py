@@ -69,3 +69,36 @@ def from_json_string(json_string):
             return []
 
     @classmethod
+def create(cls, **dictionary):
+        """
+        Function Doc
+        """
+
+        if cls.__name__ == "Rectangle":
+            dummy_obj = cls(1, 1)
+        elif cls.__name__ == "Square":
+            dummy_obj = cls(1)
+        else:
+            dummy_obj = cls()
+            return dummy_obj
+        dummy_obj.update(**dictionary)
+        return dummy_obj
+
+    @classmethod
+def load_from_file(cls):
+        """
+        Function Doc
+        """
+
+        filename = "{}.json".format(cls.__name__)
+        obj_list = []
+        if isfile(filename):
+            with open(filename, "r") as f:
+                line = f.readline()
+                final_list = Base.from_json_string(line)
+            for i in final_list:
+                class_created = cls.create(**i)
+                obj_list.append(class_created)
+        return obj_list
+
+    @classmethod

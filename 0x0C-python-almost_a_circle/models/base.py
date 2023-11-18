@@ -55,3 +55,17 @@ def save_to_file(cls, list_objs):
             f.write(Base.to_json_string(final_list))
 
     @staticmethod
+def from_json_string(json_string):
+        """
+        Function Doc
+        """
+
+        if type(json_string) is str:
+            if len(json_string) == 0:
+                return []
+            else:
+                return loads(json_string)
+        elif json_string is None:
+            return []
+
+    @classmethod

@@ -27,3 +27,17 @@ class Base:
             self.id = Base.__nb_objects
 
     @staticmethod
+def to_json_string(list_dictionaries):
+        """
+        Function Docs
+        """
+
+        if type(list_dictionaries) is list:
+            if len(list_dictionaries) == 0:
+                return dumps([])
+            else:
+                return dumps(list_dictionaries)
+        elif list_dictionaries is None:
+            return dumps([])
+
+    @classmethod

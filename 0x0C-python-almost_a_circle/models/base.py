@@ -27,6 +27,7 @@ class Base:
             self.id = Base.__nb_objects
 
     @staticmethod
+
 def to_json_string(list_dictionaries):
         """
         Function Docs
@@ -41,3 +42,18 @@ def to_json_string(list_dictionaries):
             return dumps([])
 
     @classmethod
+
+def save_to_file(cls, list_objs):
+        """
+        Function Docs
+        """
+
+        if list_objs is None:
+            final_list = []
+        else:
+            final_list = [i.to_dictionary() for i in list_objs]
+        filename = "{}.json".format(cls.__name__)
+        with open(filename, "w") as f:
+            f.write(Base.to_json_string(final_list))
+
+    @staticmethod
